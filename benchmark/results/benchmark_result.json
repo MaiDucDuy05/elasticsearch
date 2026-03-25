@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-03-25T18:01:42.414726+00:00",
+  "elasticsearch_host": "http://localhost:9200",
+  "results": [
+    {
+      "query": "1_time_range_search",
+      "description": "Time-range search: lấy 100 Zeek events trong 1 giờ đầu",
+      "runs": 20,
+      "concurrency": 1,
+      "p50_ms": 48.04,
+      "p95_ms": 54.21,
+      "p99_ms": 58.13,
+      "min_ms": 46.31,
+      "max_ms": 59.11,
+      "mean_ms": 49.22,
+      "qps": 20.32
+    },
+    {
+      "query": "3_snort_severity_distribution",
+      "description": "Snort Alert: phân phối theo severity — aggregation",
+      "runs": 20,
+      "concurrency": 1,
+      "p50_ms": 48.03,
+      "p95_ms": 50.04,
+      "p99_ms": 51.77,
+      "min_ms": 45.03,
+      "max_ms": 52.21,
+      "mean_ms": 48.05,
+      "qps": 20.81
+    },
+    {
+      "query": "4_suspicious_connections",
+      "description": "Suspicious Connections: Zeek state=S0 (SYN no response)",
+      "runs": 20,
+      "concurrency": 1,
+      "p50_ms": 48.07,
+      "p95_ms": 51.67,
+      "p99_ms": 52.31,
+      "min_ms": 47.09,
+      "max_ms": 52.47,
+      "mean_ms": 48.62,
+      "qps": 20.57
+    },
+    {
+      "query": "5_traffic_volume_timeseries",
+      "description": "Traffic volume theo giờ — date_histogram aggregation",
+      "runs": 20,
+      "concurrency": 1,
+      "p50_ms": 48.22,
+      "p95_ms": 52.74,
+      "p99_ms": 60.99,
+      "min_ms": 47.2,
+      "max_ms": 63.06,
+      "mean_ms": 49.53,
+      "qps": 20.19
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "index_patterns": ["zeek-conn-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "index.lifecycle.name": "siem-ilm-policy",
+      "index.lifecycle.rollover_alias": "zeek-conn"
+    },
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "@timestamp":           { "type": "date" },
+        "message":              { "type": "text" },
+        "event": {
+          "properties": {
+            "kind":             { "type": "keyword" },
+            "category":         { "type": "keyword" },
+            "type":             { "type": "keyword" },
+            "module":           { "type": "keyword" },
+            "dataset":          { "type": "keyword" },
+            "original":         { "type": "text", "index": false }
+          }
+        },
+        "source": {
+          "properties": {
+            "ip":               { "type": "ip" },
+            "port":             { "type": "integer" },
+            "bytes":            { "type": "long" },
+            "packets":          { "type": "long" }
+          }
+        },
+        "destination": {
+          "properties": {
+            "ip":               { "type": "ip" },
+            "port":             { "type": "integer" },
+            "bytes":            { "type": "long" },
+            "packets":          { "type": "long" }
+          }
+        },
+        "network": {
+          "properties": {
+            "transport":        { "type": "keyword" },
+            "protocol":         { "type": "keyword" },
+            "bytes":            { "type": "long" },
+            "packets":          { "type": "long" }
+          }
+        },
+        "related": {
+          "properties": {
+            "ip":               { "type": "ip" }
+          }
+        },
+        "zeek": {
+          "properties": {
+            "conn": {
+              "properties": {
+                "uid":          { "type": "keyword" },
+                "service":      { "type": "keyword" },
+                "duration":     { "type": "float" },
+                "state":        { "type": "keyword" },
+                "history":      { "type": "keyword" },
+                "missed_bytes": { "type": "long" },
+                "local_orig":   { "type": "boolean" },
+                "tunnel_parents": { "type": "keyword" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "index_patterns": ["snort-alert-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "index.lifecycle.name": "siem-ilm-policy",
+      "index.lifecycle.rollover_alias": "snort-alert"
+    },
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "@timestamp":           { "type": "date" },
+        "message":              { "type": "text" },
+        "event": {
+          "properties": {
+            "kind":             { "type": "keyword" },
+            "module":           { "type": "keyword" },
+            "dataset":          { "type": "keyword" },
+            "severity":         { "type": "integer" },
+            "original":         { "type": "text", "index": false }
+          }
+        },
+        "rule": {
+          "properties": {
+            "id":               { "type": "keyword" },
+            "name": {
+              "type": "text",
+              "fields": {
+                "keyword":      { "type": "keyword", "ignore_above": 256 }
+              }
+            },
+            "category":         { "type": "keyword" }
+          }
+        },
+        "source": {
+          "properties": {
+            "ip":               { "type": "ip" },
+            "port":             { "type": "integer" }
+          }
+        },
+        "destination": {
+          "properties": {
+            "ip":               { "type": "ip" },
+            "port":             { "type": "integer" }
+          }
+        },
+        "network": {
+          "properties": {
+            "transport":        { "type": "keyword" }
+          }
+        },
+        "log": {
+          "properties": {
+            "file": {
+              "properties": {
+                "path":         { "type": "keyword" }
+              }
+            }
+          }
+        },
+        "snort": {
+          "properties": {
+            "generator_id":     { "type": "integer" },
+            "signature_id":     { "type": "integer" },
+            "signature_revision": { "type": "integer" },
+            "ip": {
+              "properties": {
+                "ttl":          { "type": "integer" },
+                "tos":          { "type": "keyword" },
+                "id":           { "type": "integer" },
+                "len":          { "type": "integer" },
+                "flags":        { "type": "keyword" }
+              }
+            },
+            "packet": {
+              "properties": {
+                "len":          { "type": "integer" }
+              }
+            },
+            "tcp": {
+              "properties": {
+                "flags_raw":    { "type": "keyword" },
+                "seq":          { "type": "keyword" },
+                "ack":          { "type": "keyword" },
+                "window":       { "type": "keyword" },
+                "len":          { "type": "integer" }
+              }
+            },
+            "xref":             { "type": "keyword" },
+            "extra":            { "type": "keyword" }
+          }
+        }
+      }
+    }
+  }
+}
