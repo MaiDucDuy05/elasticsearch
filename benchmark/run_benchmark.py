@@ -1,7 +1,7 @@
 """
 SIEM Benchmark — Elasticsearch Query Performance
 ================================================
-Chạy 5 loại query SIEM, đo latency (p50, p95, p99), throughput (QPS).
+Chạy 6 loại query SIEM (bao gồm fuzzy search),
 
 Usage:
     python benchmark/run_benchmark.py
@@ -49,7 +49,7 @@ QUERIES = {
             "aggs": {
                 "top_src_ips": {
                     "terms": {
-                        "field": "source.ip",
+                        "field": "source.ip.keyword",
                         "size": 10,
                         "order": {"_count": "desc"}
                     }
@@ -106,6 +106,22 @@ QUERIES = {
                     }
                 }
             }
+        }
+    },
+    "6_fuzzy_search": {
+        "description": "Fuzzy search source IP ~ '192.168.*' (fuzziness=2) — relevance scoring",
+        "index": ZEEK_INDEX,
+        "body": {
+            "size": 20,
+            "query": {
+                "fuzzy": {
+                    "source.ip": {
+                        "value": "192.168",
+                        "fuzziness": "2"
+                    }
+                }
+            },
+            "_source": ["@timestamp", "source.ip", "destination.ip", "zeek.http.hostname"]
         }
     }
 }
